@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Maybaj Outlet</title>
+  <style>
+    body {
+      font-family: Arial;
+    }
+    #message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #submitBtn {
+      display: none;
+      margin-top: 15px;
+    }
+    #orderMsg {
+      margin-top: 20px;
+      font-size: 20px;
+      color: green;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>Payment Details</h2>
+
+<form id="payForm" onsubmit="return validateForm()">
+
+  Name:<br>
+  <input type="text" id="name"><br><br>
+
+  Address:<br>
+  <input type="text" id="address"><br><br>
+
+  <b>Choose Item:</b><br>
+  <select id="item">
+    <option value="">-- Select Item --</option>
+    <option value="Pizza">Pizza</option>
+    <option value="Burger">Burger</option>
+    <option value="Chicken">Chicken</option>
+  </select>
+  <br><br>
+
+  <b>Select Payment Method:</b><br>
+  <input type="radio" name="payment" value="cod" onclick="paymentOption()"> Cash on Delivery<br>
+  <input type="radio" name="payment" value="upi" onclick="paymentOption()"> UPI<br>
+
+  <div id="message"></div>
+
+  <button type="submit" id="submitBtn">Submit</button>
+
+</form>
+
+<div id="orderMsg">🚚 Your order is on the way!</div>
+
+<script>
+function paymentOption() {
+  let payments = document.getElementsByName("payment");
+  let message = document.getElementById("message");
+  let submitBtn = document.getElementById("submitBtn");
+
+  if (payments[0].checked) {
+    message.innerHTML = "✅ Okay, pay at the time of delivery";
+    submitBtn.style.display = "block";
+  }
+  else if (payments[1].checked) {
+    message.innerHTML = "📱 PhonePe / Google Pay only";
+    submitBtn.style.display = "block";
+  }
+}
+
+function validateForm() {
+  let name = document.getElementById("name").value;
+  let address = document.getElementById("address").value;
+  let item = document.getElementById("item").value;
+  let payments = document.getElementsByName("payment");
+
+  if (name === "" || address === "" || item === "") {
+    alert("❌ No, you didn’t fill the full form");
+    return false;
+  }
+
+  if (!payments[0].checked && !payments[1].checked) {
+    alert("❌ Please select a payment option");
+    return false;
+  }
+
+  // Success
+  document.getElementById("payForm").style.display = "none";
+  document.getElementById("orderMsg").style.display = "block";
+
+  return false; // stop page reload
+}
+</script>
+
+</body>
+</html>
